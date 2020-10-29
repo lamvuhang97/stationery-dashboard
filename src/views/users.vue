@@ -23,7 +23,7 @@ export default {
             label: "Username",
             field: "username",
             type: 'string',
-            filterable: true
+            filterable: true,
           },
           {
             label: "Email",
@@ -41,14 +41,14 @@ export default {
             label: "Address",
             field: "address",
             type: 'string',
+            filterable: true,
+          },
+          {
+            label: "Status",
+            field: this.status,
+            type: 'string',
             filterable: true
           },
-          // {
-          //   label: "Status",
-          //   field: "status",
-          //   type: 'string',
-          //   filterable: true
-          // },
           {
             label: "",
             field: "removebutton",
@@ -65,6 +65,14 @@ export default {
     };
   },
   methods: {
+    status(rowObj) {
+      if(rowObj.status === true){
+        return "Enable"
+      }
+      if(rowObj.status === false){
+        return "Disable"
+      }
+    },
     async cellClick(params) {
       if (params.column.field == "removebutton") {
         var response = await this.$api.users.delete(params.row.id);

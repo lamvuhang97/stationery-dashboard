@@ -277,7 +277,7 @@ export default {
         }
         console.log(url);
         //this.$axios.get(url, { body: this.serverParams }).then(response => {
-        this.$axios.get("/users").then(response => {
+        this.$axios.get("/products").then(response => {
           if(response.data.meta){
             this.totalRecords = response.data.meta.total_items;
           } else {
