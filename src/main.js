@@ -5,8 +5,18 @@ import moment from "moment";
 import VueNotification from 'vue-notification'
 import Sortable from 'sortablejs'
 import VueLocalStorage from 'vue-localstorage'
+import firebase from 'firebase'
 
-
+firebase.initializeApp({
+  apiKey: "AIzaSyCBHaXdF-4dMYCOfo51QAHAQJbzf-f5L8U",
+  authDomain: "stationery-images.firebaseapp.com",
+  databaseURL: "https://stationery-images.firebaseio.com",
+  projectId: "stationery-images",
+  storageBucket: "stationery-images.appspot.com",
+  messagingSenderId: "225477453226",
+  appId: "1:225477453226:web:5553b6162e0d6f4da577d3",
+  measurementId: "G-MTVYR4FY31"
+})
 
 Vue.directive('sortable', {
   inserted(el, binding) {
@@ -71,7 +81,11 @@ Vue.filter("expirationDate", function(value) {
   }
 });
 
+
+
 new Vue({
   router,
-  render: h => h(App)
+  render: h => h(App),
+
+  
 }).$mount("#app");
