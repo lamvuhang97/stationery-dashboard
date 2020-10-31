@@ -1,8 +1,5 @@
 <template>
   <div>
-        <h1>Upload a photo</h1>
-
-   
     <div>
        <div>
          <div >
