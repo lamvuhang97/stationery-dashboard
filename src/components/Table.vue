@@ -251,9 +251,9 @@ export default {
 
         let url =
           remoteURL +
-          "page[offset]=" +
+          "offset=" +
           this.serverParams.page +
-          "&page[limit]=" +
+          "&limit=" +
           this.serverParams.perPage;
 
         if (this.serverParams.sort.length > 0) {
@@ -266,7 +266,7 @@ export default {
         }
 
         if (this.serverParams.searchTerms) {
-          url = url + "&filter[" + this.props.searchParams + "]=" + this.serverParams.searchTerms;
+          url = url + "&" + this.props.searchParams + "=" + this.serverParams.searchTerms;
         }
         if (this.serverParams.filterTerms) {
           url = url + "&f=" + this.serverParams.filterTerms;
@@ -277,23 +277,23 @@ export default {
         }
         console.log(url);
         //this.$axios.get(url, { body: this.serverParams }).then(response => {
-        this.$axios.get("/products").then(response => {
+        this.$axios.get(url).then(response => {
           if(response.data.meta){
             this.totalRecords = response.data.meta.total_items;
           } else {
-            this.totalRecords = response.data.data.length
+            this.totalRecords = response.data.data.count
           }
           console.log("response", response);
-          this.rows = response.data.data;
-          if(this.props.page == 'view'){
-            const filtered =[]
-            this.rows.forEach((e) => {
-              if(e.attributes.title.toLowerCase().includes(this.serverParams.searchTerms.toLowerCase())){
-                filtered.push(e)
-              }
-            })
-            this.rows = filtered
-          }
+          this.rows = response.data.data.rows;
+          // if(this.props.page == 'view'){
+          //   const filtered =[]
+          //   this.rows.forEach((e) => {
+          //     if(e.attributes.title.toLowerCase().includes(this.serverParams.searchTerms.toLowerCase())){
+          //       filtered.push(e)
+          //     }
+          //   })
+          //   this.rows = filtered
+          // }
         });
       }
     },
