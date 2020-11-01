@@ -18,12 +18,8 @@
         </div>
     </div>
     <div class="products" v-if="!isNew">
-      asjdg
-      <custom-table :props="propsProduct" @cell-click="cellClick" :reload="reload"></custom-table>
-    </div>
-    <div class="transaction" v-if="!isNew">
-      sdhk
-      <custom-table :props="propsTransaction" @cell-click="cellClick" :reload="reload"></custom-table>
+      <h5>Products</h5> 
+      <custom-table :props="propsProduct" ></custom-table>
     </div>
     </div>
 </template>
@@ -41,6 +37,51 @@ export default {
       imgUrl: "/assets/img/logo.jpg",
       imageData: null,
       imgUrlToPost: '',
+      propsProduct: {
+        norowsfound: "product",
+        searchname: "Search for a product by name...",
+        columns: [
+          {
+            label: "Name",
+            field: "name",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Category",
+            field: "category.name",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Price",
+            field: "price",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Quantity",
+            field: "quantity",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Status",
+            field: this.status,
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "",
+            field: "removebutton",
+            sortable: false,
+            page: "user"
+          }
+        ],
+        remoteURL: this.$settings.baseURL + "/products/user/" + this.$route.params.id,
+        isLoading: false,
+        searchParams: "name",
+      },
       formbuilder: {
         heading: "Create User",
         columns: [
@@ -200,6 +241,14 @@ export default {
           console.log(err)
         })
     },
+    status(rowObj) {
+      if(rowObj.status === true){
+        return "Enable"
+      }
+      if(rowObj.status === false){
+        return "Disable"
+      }
+    },
   },
   async mounted() {
     this.id = this.$route.params.id;
@@ -270,5 +319,8 @@ img {
 }
 .profile {
   width: 70%;
+}
+.products{
+  margin: 20px;
 }
 </style>
