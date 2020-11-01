@@ -149,7 +149,9 @@ export default {
           this.formbuilder.disabledSave = false;
         }
       } else {
-        this.create()
+        if(this.imageData != null){
+          this.create()
+        }
         response = await this.$api.users.create({
           username: params.username,
           password: params.password,
@@ -225,7 +227,9 @@ export default {
       var response = await this.$api.users.get(this.$route.params.id);
       console.log("res", response);
       var data = response.data.user;
-      this.imgUrl = data.avatar
+      if(data.avatar != ''){
+        this.imgUrl = data.avatar
+      }
       if (data) {
         for (var item in this.formbuilder.columns) {
           var field = this.formbuilder.columns[item].field;
