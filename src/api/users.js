@@ -18,7 +18,7 @@ export const users = {
 
   async update(id, payload) {
     return await axios
-      .patch(Vue.prototype.$settings.baseURL + "/users/" + id, payload)
+      .put(Vue.prototype.$settings.baseURL + "/users/" + id, payload)
       .catch(error => {
         return api.response.error(error.response.data);
       });

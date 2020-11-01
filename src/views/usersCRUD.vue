@@ -94,14 +94,7 @@ export default {
             inputtype: true,
             placeholder: "Phonenumber of user"
           },
-          // {
-          //   label: "Status",
-          //   field: "status",
-          //   value: "",
-          //   filterable: true,
-          //   inputtype: true,
-          //   placeholder: "Status of user"
-          // }
+          
         ],
         disabledSave: false,
         isLoading: false,
@@ -119,24 +112,16 @@ export default {
       this.formbuilder.disabledSave = true;
       var response;
       if (this.$route.params.id) {
+        if(this.imageData != null){
+          this.create()
+        }
         const patchData = {
-          // attributes: {
-          //   email: params.email,
-          // },
-          // relationships: {
-          //   roles: {
-          //     data: roleData,
-          //   },
-          // },
-          // id: this.$route.params.id,
-          // type: 'user',
+          email: params.email,
+          address: params.address,
+          phonenumber: params.phonenumber,
+          avatar: this.imgUrlToPost
         }
-        if (params.password.length > 0) {
-          patchData.attributes.password = params.password
-        }
-        response = await this.$api.users.update(this.$route.params.id, {
-          data: patchData
-        });
+        response = await this.$api.users.update(this.$route.params.id, patchData);
         if (response != null) {
           this.formbuilder.disabledSave = true;
         }
@@ -221,6 +206,28 @@ export default {
   async mounted() {
     this.id = this.$route.params.id;
     if (this.$route.params.id) {
+
+      // delete field password 
+      var pos
+      this.formbuilder.columns.forEach((element, index) => {
+        if(element.field == 'password') {
+          pos = index
+        }
+      });
+
+      //add field status 
+      this.formbuilder.columns.push(
+        {
+          label: "Status",
+          field: "status",
+          value: "",
+          filterable: true,
+          inputtype: true,
+          placeholder: "Status of user"
+        }
+      )
+
+      this.formbuilder.columns.splice(pos,1)
       this.isNew = false
       this.formbuilder.heading = "Update User";
       this.formbuilder.optionDisabled = true;
