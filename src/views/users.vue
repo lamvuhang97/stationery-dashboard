@@ -87,7 +87,7 @@ export default {
       }
     },
     createUser() {
-      this.$router.push({ name: "UserCreate" });
+      this.$router.push({ name: "UsersCreate" });
     }
   },
 };

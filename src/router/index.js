@@ -22,7 +22,7 @@ import ViewsCRUD from "../views/viewsCRUD.vue";
 import Entitlements from "../views/entitlements.vue";
 import EntitlementsCRUD from "../views/entitlementsCRUD.vue";
 import NotFound from "../views/notfound.vue";
-import UserCRUD from "../views/userCRUD";
+import UsersCRUD from "../views/usersCRUD";
 import VideosCRUD from "../views/videosCRUD";
 import UploadVideoFile from "../views/uploadvideo.vue";
 import Tags from "../views/tags.vue";
@@ -290,15 +290,15 @@ const routes = [
   {
     path: "/users/update",
     name: "UsersUpdate",
-    component: UserCRUD,
+    component: UsersCRUD,
     meta: {
       requiresAuth: true,
     },
   },
   {
     path: "/users/create",
-    name: "UserCreate",
-    component: UserCRUD,
+    name: "UsersCreate",
+    component: UsersCRUD,
     meta: {
       requiresAuth: true,
     },
