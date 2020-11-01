@@ -114,7 +114,7 @@ export default {
       if (this.$route.params.id) {
         if(this.imageData != null){
           this.create()
-        }
+        } 
         const patchData = {
           email: params.email,
           address: params.address,
@@ -186,7 +186,6 @@ export default {
         );
     },
     create() {
-      if(this.isNew) {
         const post = {
           photo: this.imgUrl,        
         }
@@ -200,7 +199,6 @@ export default {
         .catch(err => {
           console.log(err)
         })
-      }
     },
   },
   async mounted() {
