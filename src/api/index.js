@@ -1,6 +1,7 @@
 import { response } from "./response.js";
 import { authentications } from "./authentications";
 import { users } from "./users";
+import { products } from "./products"
 import { subscribers } from "./subscribers";
 import { videos } from "./videos";
 import { tokens } from "./tokens";
@@ -16,6 +17,7 @@ const api = {
   response,
   authentications,
   users,
+  products,
   subscribers,
   videos,
   tokens,

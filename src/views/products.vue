@@ -1,10 +1,5 @@
 <template>
   <div>
-    <div class="form-group">
-      <button class="btn btn-primary" @click="createUser">
-        Create New Product
-      </button>
-    </div>
     <custom-table :props="props" @cell-click="cellClick" :reload="reload"></custom-table>
   </div>
 </template>
@@ -83,11 +78,8 @@ export default {
           this.$toasted.error(response.message);
         }
       } else {
-        this.$router.push({ name: "UsersUpdate", params: params.row });
+        this.$router.push({ name: "ProductDetail", params: params.row });
       }
-    },
-    createUser() {
-      this.$router.push({ name: "UserCreate" });
     }
   },
 };

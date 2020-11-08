@@ -3,7 +3,9 @@ import VueRouter from "vue-router";
 import Login from "../views/login.vue";
 import Dashboard from "../views/dashboard.vue";
 import Users from "../views/users.vue";
+import UsersCRUD from "../views/usersCRUD";
 import Products from "../views/products.vue";
+import ProductDetail from "../views/productDetail";
 import Category from "../views/category.vue";
 import Orders from "../views/orders.vue";
 import Reviews from "../views/reviews.vue";
@@ -22,7 +24,6 @@ import ViewsCRUD from "../views/viewsCRUD.vue";
 import Entitlements from "../views/entitlements.vue";
 import EntitlementsCRUD from "../views/entitlementsCRUD.vue";
 import NotFound from "../views/notfound.vue";
-import UsersCRUD from "../views/usersCRUD";
 import VideosCRUD from "../views/videosCRUD";
 import UploadVideoFile from "../views/uploadvideo.vue";
 import Tags from "../views/tags.vue";
@@ -88,6 +89,14 @@ const routes = [
     path: "/products",
     name: "Products",
     component: Products,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/products/detail",
+    name: "ProductDetail",
+    component: ProductDetail,
     meta: {
       requiresAuth: true,
     },

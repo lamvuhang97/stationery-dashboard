@@ -21,7 +21,7 @@
       <h5>Products</h5> 
       <custom-table :props="propsProduct" ></custom-table>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>

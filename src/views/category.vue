@@ -26,6 +26,18 @@ export default {
             filterable: true
           },
           {
+            label: "Category Sum",
+            field: "categorysum.name",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Num of products",
+            field: this.numOfProducts,
+            type: 'string',
+            filterable: true
+          },
+          {
             label: "",
             field: "removebutton",
             sortable: false,
@@ -41,6 +53,9 @@ export default {
     };
   },
   methods: {
+    numOfProducts(rowObj) {
+      return rowObj.products.length
+    },
     status(rowObj) {
       if(rowObj.status === true){
         return "Enable"
