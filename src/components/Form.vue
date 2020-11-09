@@ -261,7 +261,7 @@
                 >
                   <option
                     v-for="option in item.options"
-                    :selected="(item.value && option.value == item.value) || option.selected"
+                    :selected="option.value == item.value"
                     :value="option.value"
                     :key="option.label"
                     :disabled="option.disable"
@@ -281,6 +281,7 @@
                   :id="item.field"
                   v-model.trim.lazy="$v.form[item.field].$model"
                   :options="item.options"
+                  :value="item.value"
                   :allow-empty="true"
                   :placeholder="item.placeholder"
                   :label="item.labelBy"

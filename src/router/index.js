@@ -7,6 +7,7 @@ import UsersCRUD from "../views/usersCRUD";
 import Products from "../views/products.vue";
 import ProductDetail from "../views/productDetail";
 import Category from "../views/category.vue";
+import CategoryCRUD from "../views/categoryCRUD.vue";
 import Orders from "../views/orders.vue";
 import Reviews from "../views/reviews.vue";
 
@@ -86,6 +87,22 @@ const routes = [
     },
   },
   {
+    path: "/users/update",
+    name: "UsersUpdate",
+    component: UsersCRUD,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/users/create",
+    name: "UsersCreate",
+    component: UsersCRUD,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: "/products",
     name: "Products",
     component: Products,
@@ -105,6 +122,22 @@ const routes = [
     path: "/category",
     name: "Category",
     component: Category,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/category/update",
+    name: "CategoryUpdate",
+    component: CategoryCRUD,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/category/create",
+    name: "CategoryCreate",
+    component: CategoryCRUD,
     meta: {
       requiresAuth: true,
     },
@@ -296,22 +329,7 @@ const routes = [
       requiresAuth: true,
     },
   },
-  {
-    path: "/users/update",
-    name: "UsersUpdate",
-    component: UsersCRUD,
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: "/users/create",
-    name: "UsersCreate",
-    component: UsersCRUD,
-    meta: {
-      requiresAuth: true,
-    },
-  },
+  
   {
     path: "/users",
     name: "Users",

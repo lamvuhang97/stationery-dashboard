@@ -1,8 +1,11 @@
 <template>
   <div>
     <div class="form-group">
-      <button class="btn btn-primary" @click="createUser">
+      <button class="btn btn-primary" @click="createCategory">
         Create New Category
+      </button>
+      <button class="btn btn-primary" @click="createTag" style="margin-left: 20px">
+        Create New Tag
       </button>
     </div>
     <custom-table :props="props" @cell-click="cellClick" :reload="reload"></custom-table>
@@ -26,7 +29,7 @@ export default {
             filterable: true
           },
           {
-            label: "Category Sum",
+            label: "Tag",
             field: "categorysum.name",
             type: 'string',
             filterable: true
@@ -74,11 +77,14 @@ export default {
           this.$toasted.error(response.message);
         }
       } else {
-        this.$router.push({ name: "UsersUpdate", params: params.row });
+        this.$router.push({ name: "CategoryUpdate", params: params.row });
       }
     },
-    createUser() {
-      this.$router.push({ name: "UserCreate" });
+    createCategory() {
+      this.$router.push({ name: "CategoryCreate" });
+    },
+    createTag() {
+      // this.$router.push({ name: "CategoryCreate" });
     }
   },
 };
