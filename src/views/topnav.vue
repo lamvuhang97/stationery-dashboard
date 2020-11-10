@@ -138,15 +138,7 @@
             >
               <a class="dropdown-item" role="presentation" v-on:click="userProfile">
                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i
-                >&nbsp;Profile
-              </a>
-              <!-- <a class="dropdown-item" role="presentation" href="#">
-                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i
-                >&nbsp;Settings
-              </a> -->
-              <a class="dropdown-item" role="presentation" href="/audits">
-                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i
-                >&nbsp;Activity log
+                >&nbsp;Account
               </a>
               <div class="dropdown-divider"></div>
               <a
@@ -179,6 +171,7 @@ export default {
       this.$parent.logout();
     },
     userProfile() {
+      this.$router.push({name: "AccountManager"})
       // if (this.$route.name != "UsersUpdate") {
       //   this.$api.users
       //     .getUserInfo()

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../views/login.vue";
+import AccountManager from "../views/accountManager.vue";
 import Dashboard from "../views/dashboard.vue";
 import Users from "../views/users.vue";
 import UsersCRUD from "../views/usersCRUD";
@@ -45,6 +46,14 @@ const routes = [
     component: Login,
     meta: {
       requiresAuth: false,
+    },
+  },
+  {
+    path: "/account",
+    name: "AccountManager",
+    component: AccountManager,
+    meta: {
+      requiresAuth: true,
     },
   },
   // {

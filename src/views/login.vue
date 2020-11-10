@@ -102,9 +102,9 @@ export default {
           .login({ username: this.input.email, password: this.input.password })
           .then((response) => {
             if (response.status == 200) {
-              Vue.prototype.$localstorage.setToken(response.data);
+              Vue.prototype.$localstorage.setToken(response.data.token);
               Vue.prototype.$localstorage.setName(this.input.email);
-              console.log("sdjgf", Vue.prototype.$localstorage.getName());
+              console.log("sdjgf", response);
               if (Vue.prototype.$localstorage.getAccessToken() != null) {
                 this.$parent.setAuthenticated(true);
               }
