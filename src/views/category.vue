@@ -84,7 +84,7 @@ export default {
       this.$router.push({ name: "CategoryCreate" });
     },
     createTag() {
-      // this.$router.push({ name: "CategoryCreate" });
+      this.$router.push({ name: "CreateTag" });
     }
   },
 };

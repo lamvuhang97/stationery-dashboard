@@ -1,6 +1,10 @@
 <template>
   <div>
     <custom-form :formbuilder="formbuilder" :recordId="id" @form-save-click="save"></custom-form>
+    <div class="product-list" v-if="!isNew">
+      <h4>Products</h4>
+      <custom-table :props="props" @cell-click="cellClick" :reload="reload"></custom-table>
+    </div>
   </div>
 </template>
 <script>
@@ -11,6 +15,7 @@ export default {
     return {
       id: "",
       categorysumList: [],
+      isNew: true,
       formbuilder: {
         heading: "Create Category",
         columns: [
@@ -37,6 +42,45 @@ export default {
         optionDisabled: false,
         reloadFormbuilder: true
       },
+      props: {
+        norowsfound: "product",
+        searchname: "Search for a product by name...",
+        columns: [
+          {
+            label: "Name",
+            field: "name",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Price",
+            field: "price",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Quantity",
+            field: "quantity",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Status",
+            field: this.status,
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "",
+            field: "removebutton",
+            sortable: false,
+            page: "user"
+          }
+        ],
+        remoteURL: this.$settings.baseURL + "/products/category/" + this.$route.params.id,
+        isLoading: false,
+        searchParams: "name",
+      },
       categoryPost : {
         name: '',
         categorysumId: 0,
@@ -45,6 +89,14 @@ export default {
     };
   },
   methods: {
+    status(rowObj) {
+      if(rowObj.status === true){
+        return "Enable"
+      }
+      if(rowObj.status === false){
+        return "Disable"
+      }
+    },
     async save(params) {
       this.formbuilder.disabledSave = true;
       var categorysumId;
@@ -90,6 +142,7 @@ async mounted() {
     this.formbuilder.columns[1].options = this.categorysumList
     if (this.$route.params.id) {
       this.formbuilder.heading = "Update Category";
+      this.isNew = false
 
       this.formbuilder.optionDisabled = true;
       var response = await this.$api.categories.get(this.$route.params.id);

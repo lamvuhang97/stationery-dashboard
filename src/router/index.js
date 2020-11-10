@@ -8,6 +8,7 @@ import Products from "../views/products.vue";
 import ProductDetail from "../views/productDetail";
 import Category from "../views/category.vue";
 import CategoryCRUD from "../views/categoryCRUD.vue";
+import CreateTag from "../views/createTag.vue"
 import Orders from "../views/orders.vue";
 import Reviews from "../views/reviews.vue";
 
@@ -138,6 +139,14 @@ const routes = [
     path: "/category/create",
     name: "CategoryCreate",
     component: CategoryCRUD,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/category/tag",
+    name: "CreateTag",
+    component: CreateTag,
     meta: {
       requiresAuth: true,
     },

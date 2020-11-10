@@ -44,6 +44,13 @@ export const categories = {
         .catch(error => {
           return api.response.error(error.response.data);
         });
+    },
+    async createTag(payload) {
+      return await axios
+        .post(Vue.prototype.$settings.baseURL + "/categorysum", payload)
+        .catch(error => {
+          return api.response.error(error.response.data);
+        });
     }
   };
   
