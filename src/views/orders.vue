@@ -1,45 +1,78 @@
 <template>
-    <div>
-        <div>
-            <upload-image @uploadImage="uploadImage"/>
-        </div>
-        <div>
-            <h1>another components</h1>
-        </div>
-        <div>
-            <button class="btn btn-success" @click="save">Save </button>
-        </div>
-    </div>
+  <div>
+    <custom-table :props="props" @cell-click="cellClick" :reload="reload"></custom-table>
+  </div>
 </template>
+
 <script>
-import UploadImage from '@/components/global/UploadImage.vue'
-import firebase from 'firebase'
+
 export default {
-    data() {
-        return {
-            imgUrl: ''
+  name: "Orders",
+  data() {
+    return {
+      props: {
+        norowsfound: "orders",
+        searchname: "Search for a order by id...",
+        columns: [
+          {
+            label: "Id",
+            field: "id",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "User",
+            field: "user.username",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Payment",
+            field: "payment.name",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Status",
+            field: "status.name",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Phone Number",
+            field: "phonenumber",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Address",
+            field: "address",
+            type: 'string',
+            filterable: true
+          },
+        ],
+        remoteURL: this.$settings.baseURL + "/orders",
+        isLoading: false,
+        searchParams: "id",
+      },
+      reload: false,
+      filter: "id"
+    };
+  },
+  methods: {
+    async cellClick(params) {
+      if (params.column.field == "removebutton") {
+        var response = await this.$api.users.delete(params.row.id);
+        if (response.status < 300) {
+          this.$toasted.success("Deleted User");
+          this.reload = !this.reload;
+        } else {
+          this.$toasted.error(response.message);
         }
-    },
-    components:{
-        UploadImage
-    },
-    methods: {
-        uploadImage(params) {
-            this.imgUrl = params
-        },
-        save() {
-              const post = {
-                photo: this.imgUrl,        
-              }
-              firebase.database().ref('PhotoGallery').push(post)
-              .then((response) => {
-                console.log(response)
-              })
-              .catch(err => {
-                console.log(err)
-              })
-        }
+      } else {
+        this.$router.push({ name: "ProductDetail", params: params.row });
+      }
     }
-    
-}
+  },
+};
 </script>
