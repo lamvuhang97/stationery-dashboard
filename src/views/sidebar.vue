@@ -40,40 +40,50 @@
             <span>Category</span>
           </router-link>
         </li>
-        <li class="nav-item" role="presentation">
+        <li class="nav-item" role="presentation" >
           <router-link to="/orders" class="nav-link">
             <i class="fas fa-film"></i>
-            <span>Orders</span>
-          </router-link>
-        </li>
-        <li class="nav-item" role="presentation">
-          <router-link to="/reviews" class="nav-link">
-            <i class="fas fa-file-alt"></i>
-            <span>Reviews</span>
-          </router-link>
-        </li>
-        <li class="nav-item" role="presentation">
-          <router-link to="/entitlements" class="nav-link">
-            <i class="fas fa-building"></i>
-            <span>Entitlements</span>
-          </router-link>
-        </li>
-        <li class="nav-item" role="presentation">
-          <router-link to="/subscribers" class="nav-link">
-            <i class="fas fa-user"></i>
-            <span>Subscribers</span>
-          </router-link>
-        </li>
-        <li class="nav-item" role="presentation">
-          <router-link to="/tokens" class="nav-link">
-            <i class="fas fa-qrcode"></i>
-            <span>Tokens</span>
-          </router-link>
-        </li>
-        <li class="nav-item" role="presentation">
-          <router-link to="/tags" class="nav-link">
-            <i class="fas fa-qrcode"></i>
-            <span>Tags</span>
+            <span @click="show = !show">Orders</span>
+              <div class="order-list" v-show="show">
+                <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                  <li class="nav-item" role="presentation">
+                    <router-link to="/order/1" class="nav-link">
+                      <i class="fas fa-user"></i>
+                      <span>Cho xac nhan</span>
+                    </router-link>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <router-link to="/order/2" class="nav-link">
+                      <i class="fas fa-user"></i>
+                      <span>Cho lay hang</span>
+                    </router-link>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <router-link to="/order/3" class="nav-link">
+                      <i class="fas fa-user"></i>
+                      <span>Cho giao hang</span>
+                    </router-link>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <router-link to="/order/4" class="nav-link">
+                      <i class="fas fa-user"></i>
+                      <span>Bi tu choi</span>
+                    </router-link>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <router-link to="/order/5" class="nav-link">
+                      <i class="fas fa-user"></i>
+                      <span>Thanh cong</span>
+                    </router-link>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <router-link to="/order/6" class="nav-link">
+                      <i class="fas fa-user"></i>
+                      <span>That bai</span>
+                    </router-link>
+                  </li>
+                </ul>
+              </div>
           </router-link>
         </li>
       </ul>
@@ -92,7 +102,8 @@
 export default {
   data() {
     return {
-      role: ""
+      role: "",
+      show: false
     };
   }
 }

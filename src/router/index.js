@@ -11,6 +11,8 @@ import Category from "../views/category.vue";
 import CategoryCRUD from "../views/categoryCRUD.vue";
 import CreateTag from "../views/createTag.vue"
 import Orders from "../views/orders.vue";
+import OrderDetail from "../views/orderDetail.vue";
+import OrderStatus from "../views/orderStatus.vue"
 import Reviews from "../views/reviews.vue";
 
 import Subscribers from "../views/subscribers.vue";
@@ -164,6 +166,22 @@ const routes = [
     path: "/orders",
     name: "Orders",
     component: Orders,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/order/:id",
+    name: "OrderStatus",
+    component: OrderStatus,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/orders/detail",
+    name: "OrderDetail",
+    component: OrderDetail,
     meta: {
       requiresAuth: true,
     },

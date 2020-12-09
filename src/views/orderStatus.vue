@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h4>{{text}}</h4>
     <custom-table :props="props" @cell-click="cellClick" :reload="reload"></custom-table>
   </div>
 </template>
@@ -10,6 +11,8 @@ export default {
   name: "Orders",
   data() {
     return {
+        text: '',
+        // statusId: 0,
       props: {
         norowsfound: "orders",
         searchname: "Search for a order by id...",
@@ -63,13 +66,27 @@ export default {
             filterable: true
           },
         ],
-        remoteURL: this.$settings.baseURL + "/orders",
+        // remoteURL: this.$settings.baseURL + "/orders/status/" + this.statusId,
+        remoteURL : null,
         isLoading: false,
         searchParams: "id",
       },
       reload: false,
       filter: "id"
     };
+  },
+  computed: {
+      statusId() {
+          return this.$route.params.id
+      }
+  },
+  watch: {
+      "statusId"() {
+          console.log("change");
+          console.log("id comu",this.statusId);
+          this.props.remoteURL = this.$settings.baseURL + "/orders/status/" + this.statusId
+          this.reload = !this.reload
+      }
   },
   methods: {
     total(rowObj) {
@@ -87,7 +104,12 @@ export default {
       } else {
         this.$router.push({ name: "OrderDetail", params: params.row });
       }
-    }
+    },
+    fetch
   },
+  mounted() {
+      console.log("id", this.$route.params.id);
+    //   this.statusId = this.$route.params.id
+  }
 };
 </script>

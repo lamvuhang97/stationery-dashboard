@@ -28,13 +28,13 @@ export default {
               required
             }
           },
-          {
-            label: "Tag",
-            multiselecttype: true,
-            field: "tag",
-            placeholder: "Choose a tag",
-            options: [],
-          },
+          // {
+          //   label: "Tag",
+          //   multiselecttype: true,
+          //   field: "tag",
+          //   placeholder: "Choose a tag",
+          //   options: [],
+          // },
         ],
         disabledSave: false,
         isLoading: false,
@@ -83,7 +83,6 @@ export default {
       },
       categoryPost : {
         name: '',
-        categorysumId: 0,
         status: null
       }
     };
@@ -99,15 +98,8 @@ export default {
     },
     async save(params) {
       this.formbuilder.disabledSave = true;
-      var categorysumId;
-      this.categorysumList.forEach((item, ind) => {
-        if(item == params.tag){
-          categorysumId = ind + 1
-        }
-      })
       this.categoryPost ={
         name: params.name,
-        categorysumId: categorysumId,
         status: true
       }
       if (this.$route.params.id) {
@@ -131,15 +123,8 @@ export default {
       }
     }
   },
-async beforeMount() {
-    var res = await this.$api.categories.getCategorysum()
-    res.data.data.forEach((item) => {
-      this.categorysumList.push(item.name)
-    })
-},
 async mounted() {
     this.id = this.$route.params.id;
-    this.formbuilder.columns[1].options = this.categorysumList
     if (this.$route.params.id) {
       this.formbuilder.heading = "Update Category";
       this.isNew = false
@@ -154,7 +139,6 @@ async mounted() {
         }
       }
       
-      this.formbuilder.columns[1].value = data.categorysum.name
     }
   }
 }

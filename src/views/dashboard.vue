@@ -1,85 +1,192 @@
 <template>
-  <div>
-    <div>
-       <div>
-         <div >
-           <button class="btn btn-success" @click="click1">choose photo</button>
-           <input type="file" ref="input1"
-            style="display: none"
-            @change="previewImage" accept="image/*" >                
-         </div>
- 
-       <div v-if="imageData!=null">                     
-          <img class="preview" height="268" width="356" :src="img1">
-       <br>
-       </div>   
-      
-       </div>
+    <div class="container">
+        <div class="analyze">
+            <div class="analyze-order analyze-item">
+                <h5>Thống kê đơn hàng</h5>
+                <span>Tổng số đơn hàng: {{sumOrder}}</span>
+                <div class="items">
+                    <div class="item" style="border-right:1px solid gray">
+                        <span class="number">{{dataOrder.waiting}}</span>
+                        <span class="title">Chờ xác nhận</span>
+                    </div>
+                    <div class="item" style="border-right:1px solid gray">
+                        <span class="number">{{dataOrder.accept}}</span>
+                        <span class="title">Chờ lấy hàng</span>
+                    </div>
+                    <div class="item" style="border-right:1px solid gray">
+                        <span class="number">{{dataOrder.accept}}</span>
+                        <span class="title">Dang giao</span>
+                    </div>
+                    <div class="item" style="border-right:1px solid gray">
+                        <span class="number">{{dataOrder.reject}}</span>
+                        <span class="title">Từ chối</span>
+                    </div>
+                    <div class="item" style="border-right:1px solid gray">
+                        <span class="number">{{dataOrder.success}}</span>
+                        <span class="title">Thành công</span>
+                    </div>
+                    <div class="item">
+                        <span class="number">{{dataOrder.fail}}</span>
+                        <span class="title">Thất bại</span>
+                    </div>
+                </div>
+            </div>
+            <div class="analyze-product analyze-item">
+                <h5>Thống kê sản phẩm</h5>
+                <span>Tổng số sản phẩm: {{sumProduct}}</span>
+                <div class="items">
+                    <div class="item" style="border-right:1px solid gray">
+                        <span class="number">{{dataProduct.active}}</span>
+                        <span class="title">Đang bán</span>
+                    </div>
+                    <div class="item" style="border-right:1px solid gray">
+                        <span class="number">{{dataProduct.sold}}</span>
+                        <span class="title">Hết hàng</span>
+                    </div>
+                    <div class="item">
+                        <span class="number">{{dataProduct.locked}}</span>
+                        <span class="title">Tạm khóa</span>
+                    </div>
+                </div>
+            </div>
+            <div class="analyze-user analyze-item">
+                <h5>Thống kê nguoi dung</h5>
+                <span>Tổng so nguoi dung: {{dataSale.sum}} VND</span>
+                <div class="items">
+                    <div class="item" style="border-right:1px solid gray">
+                        <span class="number">{{dataSale.day}}</span>
+                        <span class="title">Trong ngày</span>
+                    </div>
+                    <div class="item" style="border-right:1px solid gray">
+                        <span class="number">{{dataSale.week}}</span>
+                        <span class="title">Trong tuần</span>
+                    </div>
+                    <div class="item">
+                        <span class="number">{{dataSale.month}}</span>
+                        <span class="title">Trong tháng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-
-    <div>
-        <input
-        solo
-        v-model="caption"
-        label="Caption goes here">
-    </div>
-    <div>
-        <button class="btn btn-primary" color="pink" @click="create">upload</button>
-    </div>
-  </div>
 </template>
-
-
 <script>
-import firebase from 'firebase';
 export default {
-  data () {
-    return {
-      caption : '',
-      img1: '',
-      imageData: null
-    }
-  },
-  methods: {
-    create () {
-      
-      const post = {
-        photo: this.img1,
-        caption: this.caption        
-      }
-      console.log("post", post);
-      firebase.database().ref('PhotoGallery').push(post)
-      .then((response) => {
-        console.log(response)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    data() {
+        return {
+            dataOrder:  {
+                waiting: 0,
+                accept: 0,
+                reject: 0,
+                success: 0,
+                fail: 0
+            },
+            dataProduct: {
+                active:0,
+                locked:0,
+                sold: 0
+            },
+            dataSale: {
+                day: 0,
+                week: 0,
+                month: 0,
+                sum: 0
+            }
+        }
     },
-  click1() {
-  this.$refs.input1.click()   
-},
-previewImage(event) {
-  this.uploadValue=0;
-  this.img1=null;
-  this.imageData = event.target.files[0];
-  this.onUpload()
-},
-onUpload(){
-  this.img1=null;
-  const storageRef=firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
-  storageRef.on(`state_changed`,snapshot=>{
-  this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-    }, error=>{console.log(error.message)},
-  ()=>{this.uploadValue=100;
-      storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-          this.img1 =url;
-          console.log(this.img1)
-        });
-      }      
-    );
- },
-  }
+    computed: {
+        sumOrder() {
+            var sum = 0
+            for( var i in this.dataOrder) {
+                sum += this.dataOrder[i]
+            }
+            return sum
+        },
+        sumProduct() {
+            return this.dataProduct.active + this.dataProduct.locked
+        },
+    },
+    async mounted(){
+        await this.$api.orders.getOrderAnalyze()
+        .then(res => {
+            console.log(res);
+            res.data.data.forEach((item) => {
+                var status = item.statusId
+                switch(status) {
+                    case 1:
+                        this.dataOrder.waiting = item.number
+                        break
+                    case 2:
+                        this.dataOrder.accept = item.number
+                        break
+                    case 3:
+                        this.dataOrder.reject = item.number
+                        break
+                    case 4:
+                        this.dataOrder.success = item.number
+                        break
+                    case 5:
+                        this.dataOrder.fail = item.number
+                        break 
+                }
+            })
+            console.log(this.dataOrder);
+        })
+
+        await this.$api.products.getProductAnalyze()
+        .then(res => {
+            res.data.data.forEach((item) => {
+                var status = item.status
+                switch(status) {
+                    case true:
+                        this.dataProduct.active = item.number
+                        break
+                    case false:
+                        this.dataProduct.locked = item.number
+                        break
+                }
+            })
+            this.dataProduct.sold = res.data.sold
+        })
+
+        await this.$api.orders.getSaleAnalyze()
+        .then(res => {
+            if(res.data.data.day.length > 0) {
+                res.data.data.day.forEach(item => {
+                    this.dataSale.day += Number(item.total)
+                })
+            }
+            if(res.data.data.week.length > 0) {
+                res.data.data.week.forEach(item => {
+                    this.dataSale.week += Number(item.total)
+                })
+            }
+            if(res.data.data.month.length > 0) {
+                res.data.data.month.forEach(item => {
+                    this.dataSale.month += Number(item.total)
+                })
+            }
+            if(res.data.data.sum.length > 0) {
+                res.data.data.sum.forEach(item => {
+                    this.dataSale.sum += Number(item.total)
+                })
+            }
+        })
+    }
 }
 </script>
+<style scoped>
+.items {
+    display: flex;
+    justify-content: center;
+}
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px 20px;
+}
+.analyze-item {
+    padding-top: 20px;
+}
+</style>

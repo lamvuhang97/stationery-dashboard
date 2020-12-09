@@ -1,14 +1,22 @@
 <template>
-    <div class="product-detail">
-        <carousel :perPage="1" :autoplayHoverPause="true" :paginationEnabled="false" class="images">
-            <slide v-for="img in images" :key="img">
-                 <img :src="img.url.url" alt="...">
-            </slide>
-        </carousel>
-        <div class="information">
-            <custom-form :formbuilder="formbuilder"></custom-form>
+    <div>
+        <h4>Thong tin san pham</h4>
+        <div class="product-detail">
+            <carousel :perPage="1" :autoplayHoverPause="true" :paginationEnabled="false" class="images">
+                <slide v-for="img in images" :key="img">
+                    <img :src="img.url.url" alt="...">
+                </slide>
+            </carousel>
+            <div class="information">
+                <custom-form :formbuilder="formbuilder"></custom-form>
+            </div>
+        </div>
+        <div class="review">
+            <h4>Danh gia san pham</h4>
+            <custom-table :props="props" @cell-click="cellClick"  :reload="reload"></custom-table>
         </div>
     </div>
+    
 </template>
 <script>
 import { Carousel, Slide } from 'vue-carousel';
@@ -41,6 +49,13 @@ export default {
                 {
                     label: "Price",
                     field: "price",
+                    value: "",
+                    inputtype: true,
+                    readonly: true
+                },
+                {
+                    label: "Sold",
+                    field: "sold",
                     value: "",
                     inputtype: true,
                     readonly: true
@@ -79,6 +94,61 @@ export default {
                 buttonsavelabel: "Save",
                 reloadFormbuilder: true
             },
+            props: {
+                norowsfound: "orders",
+                searchname: "Search for a order by id...",
+                columns: [
+                {
+                    label: "Id",
+                    field: "id",
+                    type: 'number',
+                    filterable: true
+                },
+                {
+                    label: "Ma nguoi dung",
+                    field: "userId",
+                    type: 'number',
+                    filterable: true
+                },
+                {
+                    label: "Diem danh gia",
+                    field: "rate",
+                    type: 'number',
+                    filterable: true
+                },
+                {
+                    label: "Noi dung danh gia",
+                    field: "content",
+                    type: 'number',
+                    filterable: true
+                },
+                {
+                    label: "",
+                    field: "removebutton",
+                    sortable: false,
+                    page: "user"
+                }
+                ],
+                // remoteURL: this.$settings.baseURL + "/orders",
+                data: null,
+                isLoading: false,
+                searchParams: "id",
+            },
+            reload: false,
+            filter: "id"
+        }
+    },
+    methods: {
+        async cellClick(params) {
+        if (params.column.field == "removebutton") {
+            var response = await this.$api.reviews.delete(params.row.id);
+            if (response.status < 300) {
+            this.$toasted.success("Deleted Product");
+            this.reload = !this.reload;
+            } else {
+            this.$toasted.error(response.message);
+            }
+        }
         }
     },
     async mounted() {
@@ -86,7 +156,7 @@ export default {
         this.formbuilder.optionDisabled = true;
         var response = await this.$api.products.get(this.$route.params.id);
         console.log("res", response);
-        var data = response.data.product;
+        var data = response.data.data;
         if(data.images.length >0) {
             this.images = data.images
         } else {
@@ -109,7 +179,12 @@ export default {
                 }
             }
         }
-    
+
+        this.$api.reviews.getReviewByProduct(this.$route.params.id)
+        .then(res => {
+            this.props.data = res.data.data.rows;
+            this.reload = !this.reload
+        })
     }
 }
 </script>

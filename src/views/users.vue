@@ -32,18 +32,6 @@ export default {
             filterable: true
           },
           {
-            label: "Phone Number",
-            field: "phonenumber",
-            type: 'string',
-            filterable: true
-          },
-          {
-            label: "Address",
-            field: "address",
-            type: 'string',
-            filterable: true,
-          },
-          {
             label: "Status",
             field: this.status,
             type: 'string',

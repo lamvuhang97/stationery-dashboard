@@ -19,8 +19,12 @@
     </div>
     <div class="products" v-if="!isNew">
       <h5>Products</h5> 
-      <custom-table :props="propsProduct" ></custom-table>
+      <custom-table :props="propsProduct" @cell-click="cellClickProduct"></custom-table>
     </div>
+    <!-- <div class="orders" v-if="!isNew">
+      <h5>Products</h5> 
+      <custom-table :props="propsProduct" @cell-click="cellClickProduct"></custom-table>
+    </div> -->
   </div>
 </template>
 
@@ -118,22 +122,6 @@ export default {
               required,
               isEmail
             }
-          },
-          {
-            label: "Address",
-            field: "address",
-            value: "",
-            filterable: true,
-            inputtype: true,
-            placeholder: "Address of user"
-          },
-          {
-            label: "Phonenumber",
-            field: "phonenumber",
-            value: "",
-            filterable: true,
-            inputtype: true,
-            placeholder: "Phonenumber of user"
           },
           
         ],
@@ -249,6 +237,19 @@ export default {
         return "Disable"
       }
     },
+    async cellClickProduct(params) {
+      if (params.column.field == "removebutton") {
+        var response = await this.$api.users.delete(params.row.id);
+        if (response.status < 300) {
+          this.$toasted.success("Deleted User");
+          this.reload = !this.reload;
+        } else {
+          this.$toasted.error(response.message);
+        }
+      } else {
+        this.$router.push({ name: "ProductDetail", params: params.row });
+      }
+    },
   },
   async mounted() {
     this.id = this.$route.params.id;
@@ -280,7 +281,7 @@ export default {
       this.formbuilder.optionDisabled = true;
       var response = await this.$api.users.get(this.$route.params.id);
       console.log("res", response);
-      var data = response.data.user;
+      var data = response.data.data;
       if(data.avatar != ''){
         this.imgUrl = data.avatar
       }

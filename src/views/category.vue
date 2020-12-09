@@ -4,9 +4,6 @@
       <button class="btn btn-primary" @click="createCategory">
         Create New Category
       </button>
-      <button class="btn btn-primary" @click="createTag" style="margin-left: 20px">
-        Create New Tag
-      </button>
     </div>
     <custom-table :props="props" @cell-click="cellClick" :reload="reload"></custom-table>
   </div>
@@ -27,12 +24,12 @@ export default {
             type: 'string',
             filterable: true
           },
-          {
-            label: "Tag",
-            field: "categorysum.name",
-            type: 'string',
-            filterable: true
-          },
+          // {
+          //   label: "Status",
+          //   field: this.status,
+          //   type: 'string',
+          //   filterable: true
+          // },
           {
             label: "Num of products",
             field: this.numOfProducts,

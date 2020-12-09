@@ -23,6 +23,13 @@ export const users = {
         return api.response.error(error.response.data);
       });
   },
+  async updateWallet(id, payload) {
+    return await axios
+      .put(Vue.prototype.$settings.baseURL + "/users/wallet/" + id, payload)
+      .catch(error => {
+        return api.response.error(error.response.data);
+      });
+  },
   async create(payload) {
     return await axios
       .post(Vue.prototype.$settings.baseURL + "/users", payload)

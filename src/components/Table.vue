@@ -235,6 +235,7 @@ export default {
       this.loadItems();
     },
     loadItems() {
+      console.log(this.props.data);
       this.columns = this.props.columns;
       if (this.props.data != undefined) {
         this.totalRecords = this.props.data.length

@@ -34,7 +34,7 @@ export const products = {
   async delete(id) {
     console.log(Vue.prototype.$settings.baseURL);
     return await axios
-      .delete(Vue.prototype.$settings.baseURL + "/users/" + id)
+      .delete(Vue.prototype.$settings.baseURL + "/products/" + id)
       .catch(error=> {
         return api.response.error(error.response.data);
       })

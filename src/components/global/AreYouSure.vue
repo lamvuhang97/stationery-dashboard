@@ -10,7 +10,6 @@
         </div>
         <br />
         <div class="form-field is-horizontal">
-          <nuxt-link v-if="to !== undefined" class="button is-primary save-button" :to="to">Yes</nuxt-link>
           <a v-if="to === undefined" class="button is-primary save-button" @click.prevent="$emit('yes')">Yes</a>
           <a class="button is-primary save-button" @click.stop="$emit('no')">No</a>
         </div>
@@ -57,11 +56,11 @@ export default Vue.extend({
     min-width: 400px;
     min-height: 200px;
     text-align: center;
-    background-color: $white;
-    border: 1px solid $black;
+    background-color: white;
+    border: 1px solid black;
 
     .modal-body {
-      width: 100%;
+      // width: 100%;
 
       .modal-header {
         margin-top: 50px;

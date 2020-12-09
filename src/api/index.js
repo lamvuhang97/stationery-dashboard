@@ -3,6 +3,9 @@ import { authentications } from "./authentications";
 import { users } from "./users";
 import { products } from "./products";
 import { categories } from "./categories";
+import { orders } from "./orders"; 
+import { reviews } from "./reviews";
+
 import { subscribers } from "./subscribers";
 import { videos } from "./videos";
 import { tokens } from "./tokens";
@@ -20,6 +23,8 @@ const api = {
   users,
   products,
   categories,
+  orders,
+  reviews,
   subscribers,
   videos,
   tokens,

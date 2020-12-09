@@ -70,9 +70,9 @@ export default {
     },
     async cellClick(params) {
       if (params.column.field == "removebutton") {
-        var response = await this.$api.users.delete(params.row.id);
+        var response = await this.$api.products.delete(params.row.id);
         if (response.status < 300) {
-          this.$toasted.success("Deleted User");
+          this.$toasted.success("Deleted Product");
           this.reload = !this.reload;
         } else {
           this.$toasted.error(response.message);
