@@ -141,7 +141,7 @@ export default {
                     .then(async res => {
                         if(res.data.data.wallet == null) {
                             wallet = 0
-                        } else Number(res.data.data.wallet)
+                        } else  {wallet = Number(res.data.data.wallet)}
                         await this.$api.users.updateWallet(this.dataOrder.ownerId, {wallet: wallet + total})
                     })
                     
@@ -153,13 +153,28 @@ export default {
                     total = Number(this.dataOrder.total)
                     var ship = Number(this.dataOrder.ship)
                     wallet = 0
+
                     if(this.dataOrder.paymentId == 3) {
                         await this.$api.users.get(this.dataOrder.userId)
                         .then(async res => {
                             if(res.data.data.wallet == null) {
                                 wallet = 0
-                            } else Number(res.data.data.wallet)
+                            } else {wallet = Number(res.data.data.wallet)}
                             await this.$api.users.updateWallet(this.dataOrder.userId, {wallet: wallet + total + ship})
+                            .then(async response => {
+                                console.log(response);
+                                 var tranToPost = {
+                                    userId: this.dataOrder.userId,
+                                    orderId: this.dataOrder.id,
+                                    amount: total + ship,
+                                    type: "Cong Tien",
+                                    status: "Pending"
+                                }
+                                await this.$api.transactions.postTransaction(tranToPost)
+                                .then(r => {
+                                    console.log(r);
+                                })
+                            })
                         })
                     }
                 }

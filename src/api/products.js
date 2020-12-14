@@ -17,6 +17,15 @@ export const products = {
     }
   },
 
+  async getProductAnalyze() {
+    return await axios.get("products/analyze")
+    .catch(error => {
+      // return api.response.error(error.response.data);
+      console.log("err", error);
+      return
+    });
+  }, 
+
   async update(id, payload) {
     return await axios
       .put(Vue.prototype.$settings.baseURL + "/users/" + id, payload)

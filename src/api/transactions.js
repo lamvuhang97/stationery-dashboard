@@ -1,11 +1,12 @@
 import axios from "axios";
-import Vue from "vue";
-import { settings } from "@/library/variables";
 
 export const transactions = {
-  async getSubTransactions(id) {
-    return await axios.get(
-      Vue.prototype.$settings.baseURL + "/properties/" + settings.propertyID + "/subscribers/"+ id + "/transactions"
-    );
-  }
+  async postTransaction(payload) {
+    return await axios.post("transactions", payload)
+      .catch(error => {
+        // return api.response.error(error.response.data);
+        console.log("not found", error);
+        return
+    });
+  },
 }

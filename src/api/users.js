@@ -16,6 +16,15 @@ export const users = {
     }
   },
 
+  async getUserAnalyze() {
+    return await axios.get("users/analyze")
+    .catch(error => {
+      // return api.response.error(error.response.data);
+      console.log("err", error);
+      return
+    });
+  },
+
   async update(id, payload) {
     return await axios
       .put(Vue.prototype.$settings.baseURL + "/users/" + id, payload)

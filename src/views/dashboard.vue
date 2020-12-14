@@ -15,7 +15,7 @@
                     </div>
                     <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataOrder.accept}}</span>
-                        <span class="title">Dang giao</span>
+                        <span class="title">Đang giao</span>
                     </div>
                     <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataOrder.reject}}</span>
@@ -50,20 +50,24 @@
                 </div>
             </div>
             <div class="analyze-user analyze-item">
-                <h5>Thống kê nguoi dung</h5>
-                <span>Tổng so nguoi dung: {{dataSale.sum}} VND</span>
+                <h5>Thống kê người dùng</h5>
+                <span>Tổng số người dùng: {{dataUser.sum}} </span>
                 <div class="items">
                     <div class="item" style="border-right:1px solid gray">
-                        <span class="number">{{dataSale.day}}</span>
+                        <span class="number">{{dataUser.day}}</span>
                         <span class="title">Trong ngày</span>
                     </div>
                     <div class="item" style="border-right:1px solid gray">
-                        <span class="number">{{dataSale.week}}</span>
+                        <span class="number">{{dataUser.week}}</span>
                         <span class="title">Trong tuần</span>
                     </div>
                     <div class="item">
-                        <span class="number">{{dataSale.month}}</span>
+                        <span class="number">{{dataUser.month}}</span>
                         <span class="title">Trong tháng</span>
+                    </div>
+                    <div class="item">
+                        <span class="number">{{dataUser.lock}}</span>
+                        <span class="title">Bi khoa</span>
                     </div>
                 </div>
             </div>
@@ -86,11 +90,12 @@ export default {
                 locked:0,
                 sold: 0
             },
-            dataSale: {
+            dataUser: {
                 day: 0,
                 week: 0,
                 month: 0,
-                sum: 0
+                sum: 0,
+                lock: 0
             }
         }
     },
@@ -103,7 +108,7 @@ export default {
             return sum
         },
         sumProduct() {
-            return this.dataProduct.active + this.dataProduct.locked
+            return this.dataProduct.active + this.dataProduct.locked + this.dataProduct.sold
         },
     },
     async mounted(){
@@ -120,12 +125,15 @@ export default {
                         this.dataOrder.accept = item.number
                         break
                     case 3:
-                        this.dataOrder.reject = item.number
+                        this.dataOrder.shipping = item.number
                         break
                     case 4:
-                        this.dataOrder.success = item.number
+                        this.dataOrder.reject = item.number
                         break
                     case 5:
+                        this.dataOrder.success = item.number
+                        break
+                    case 6:
                         this.dataOrder.fail = item.number
                         break 
                 }
@@ -147,30 +155,41 @@ export default {
                 }
             })
             this.dataProduct.sold = res.data.sold
+            this.dataProduct.active -= this.dataProduct.sold
         })
 
-        await this.$api.orders.getSaleAnalyze()
+        await this.$api.users.getUserAnalyze()
         .then(res => {
-            if(res.data.data.day.length > 0) {
-                res.data.data.day.forEach(item => {
-                    this.dataSale.day += Number(item.total)
-                })
-            }
-            if(res.data.data.week.length > 0) {
-                res.data.data.week.forEach(item => {
-                    this.dataSale.week += Number(item.total)
-                })
-            }
-            if(res.data.data.month.length > 0) {
-                res.data.data.month.forEach(item => {
-                    this.dataSale.month += Number(item.total)
-                })
-            }
-            if(res.data.data.sum.length > 0) {
-                res.data.data.sum.forEach(item => {
-                    this.dataSale.sum += Number(item.total)
-                })
-            }
+            this.dataUser.day = res.data.data.day.length
+            this.dataUser.month = res.data.data.month.length
+            this.dataUser.week = res.data.data.week.length
+            this.dataUser.sum = res.data.data.sum.length
+            this.dataUser.lock = res.data.data.lock.length
+            // if(res.data.data.day.length > 0) {
+            //     res.data.data.day.forEach(item => {
+            //         this.dataUser.day += Number(item.total)
+            //     })
+            // }
+            // if(res.data.data.week.length > 0) {
+            //     res.data.data.week.forEach(item => {
+            //         this.dataUser.week += Number(item.total)
+            //     })
+            // }
+            // if(res.data.data.month.length > 0) {
+            //     res.data.data.month.forEach(item => {
+            //         this.dataUser.month += Number(item.total)
+            //     })
+            // }
+            // if(res.data.data.sum.length > 0) {
+            //     res.data.data.sum.forEach(item => {
+            //         this.dataUser.sum += Number(item.total)
+            //     })
+            // }
+            // if(res.data.data.lock.length > 0) {
+            //     res.data.data.lock.forEach(item => {
+            //         this.dataUser.lock += Number(item.total)
+            //     })
+            // }
         })
     }
 }

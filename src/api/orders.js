@@ -31,6 +31,15 @@ export const orders = {
     })
   },
 
+  async getOrderAnalyze() {
+    return await axios.get("orders/analyze")
+    .catch(error => {
+      // return api.response.error(error.response.data);
+      console.log("err", error);
+      return
+    });
+  },
+
   async update(id, payload) {
     return await axios
       .put(Vue.prototype.$settings.baseURL + "/orders/" + id, payload)

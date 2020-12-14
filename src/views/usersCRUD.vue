@@ -123,7 +123,18 @@ export default {
               isEmail
             }
           },
-          
+          {
+            label: "Ví",
+            field: "wallet",
+            value: "",
+            inputtype: true,
+            readonly: true,
+            filterable: true,
+            placeholder: "Wallet of user",
+            validate: {
+              required
+            }
+          },
         ],
         disabledSave: false,
         isLoading: false,
@@ -269,6 +280,7 @@ export default {
           label: "Status",
           field: "status",
           value: "",
+          readonly: true,
           filterable: true,
           inputtype: true,
           placeholder: "Status of user"
