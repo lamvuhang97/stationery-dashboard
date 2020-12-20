@@ -5,6 +5,7 @@ import { products } from "./products";
 import { categories } from "./categories";
 import { orders } from "./orders"; 
 import { reviews } from "./reviews";
+import {history} from "./history";
 
 import { subscribers } from "./subscribers";
 import { videos } from "./videos";
@@ -35,6 +36,7 @@ const api = {
   collections,
   locations,
   tags,
+  history
 };
 
 export default api;

@@ -2,7 +2,7 @@
   <div>
     <custom-form :formbuilder="formbuilder" :recordId="id" @form-save-click="save"></custom-form>
     <div class="product-list" v-if="!isNew">
-      <h4>Products</h4>
+      <h4>Sản phẩm</h4>
       <custom-table :props="props" @cell-click="cellClick" :reload="reload"></custom-table>
     </div>
   </div>
@@ -20,7 +20,7 @@ export default {
         heading: "Create Category",
         columns: [
           {
-            label: "Name",
+            label: "Tên phân loại",
             field: "name",
             value: "",
             inputtype: true,
@@ -47,25 +47,31 @@ export default {
         searchname: "Search for a product by name...",
         columns: [
           {
-            label: "Name",
+            label: "Mã sản phẩm",
+            field: "id",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Tên sản phẩm",
             field: "name",
             type: 'string',
             filterable: true
           },
           {
-            label: "Price",
+            label: "Giá ",
             field: "price",
             type: 'string',
             filterable: true
           },
           {
-            label: "Quantity",
+            label: "Kho",
             field: "quantity",
             type: 'string',
             filterable: true
           },
           {
-            label: "Status",
+            label: "Trạng thái",
             field: this.status,
             type: 'string',
             filterable: true
@@ -90,10 +96,10 @@ export default {
   methods: {
     status(rowObj) {
       if(rowObj.status === true){
-        return "Enable"
+        return "Đang bán"
       }
       if(rowObj.status === false){
-        return "Disable"
+        return "Bị khóa"
       }
     },
     async save(params) {
@@ -126,7 +132,7 @@ export default {
 async mounted() {
     this.id = this.$route.params.id;
     if (this.$route.params.id) {
-      this.formbuilder.heading = "Update Category";
+      this.formbuilder.heading = "Thông tin phân loại";
       this.isNew = false
 
       this.formbuilder.optionDisabled = true;
@@ -143,3 +149,8 @@ async mounted() {
   }
 }
 </script>
+<style  scoped>
+.product-list {
+  margin: 20px;
+}
+</style>

@@ -2,7 +2,7 @@
   <div>
     <div class="form-group">
       <button class="btn btn-primary" @click="createUser">
-        Create New User
+        Thêm người dùng
       </button>
     </div>
     <custom-table :props="props" @cell-click="cellClick" :reload="reload"></custom-table>
@@ -20,7 +20,13 @@ export default {
         searchname: "Search for a user by username...",
         columns: [
           {
-            label: "Username",
+            label: "Mã người dùng",
+            field: "id",
+            type: 'string',
+            filterable: true,
+          },
+          {
+            label: "Tên người dùng",
             field: "username",
             type: 'string',
             filterable: true,
@@ -32,7 +38,7 @@ export default {
             filterable: true
           },
           {
-            label: "Status",
+            label: "Trạng thái",
             field: this.status,
             type: 'string',
             filterable: true
@@ -55,10 +61,10 @@ export default {
   methods: {
     status(rowObj) {
       if(rowObj.status === true){
-        return "Enable"
+        return "Hoạt động"
       }
       if(rowObj.status === false){
-        return "Disable"
+        return "Bị khóa"
       }
     },
     async cellClick(params) {

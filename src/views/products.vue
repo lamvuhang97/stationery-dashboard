@@ -15,31 +15,37 @@ export default {
         searchname: "Search for a product by name...",
         columns: [
           {
-            label: "Name",
+            label: "Mã sản phẩm",
+            field: "id",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Tên sản phẩm",
             field: "name",
             type: 'string',
             filterable: true
           },
           {
-            label: "Category",
+            label: "Phân loại",
             field: "category.name",
             type: 'string',
             filterable: true
           },
           {
-            label: "Price",
+            label: "Giá",
             field: "price",
             type: 'string',
             filterable: true
           },
           {
-            label: "Quantity",
+            label: "Kho",
             field: "quantity",
             type: 'string',
             filterable: true
           },
           {
-            label: "Status",
+            label: "Trạng thái",
             field: this.status,
             type: 'string',
             filterable: true
@@ -62,10 +68,10 @@ export default {
   methods: {
     status(rowObj) {
       if(rowObj.status === true){
-        return "Enable"
+        return "Đang bán"
       }
       if(rowObj.status === false){
-        return "Disable"
+        return "Bị khóa"
       }
     },
     async cellClick(params) {

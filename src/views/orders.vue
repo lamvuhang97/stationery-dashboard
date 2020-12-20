@@ -15,49 +15,49 @@ export default {
         searchname: "Search for a order by id...",
         columns: [
           {
-            label: "Id",
+            label: "Mã đơn hàng",
             field: "id",
             type: 'string',
             filterable: true
           },
           {
-            label: "Ma Nguoi mua",
+            label: "Mã người mua",
             field: "userId",
             type: 'string',
             filterable: true
           },
           {
-            label: "Ma Nguoi ban",
+            label: "Mã người bán",
             field: "ownerId",
             type: 'string',
             filterable: true
           },
           {
-            label: "Tien hang",
+            label: "Tiền hàng",
             field: "total",
             type: 'number',
             filterable: true
           },
           {
-            label: "Tien ship",
+            label: "Tiền vận chuyển",
             field: "ship",
             type: 'number',
             filterable: true
           },
           {
-            label: "Tong tien",
+            label: "Tổng tiền",
             field: this.total,
             type: 'number',
             filterable: true
           },
           {
-            label: "Payment",
+            label: "Thanh toán",
             field: "payment.name",
             type: 'string',
             filterable: true
           },
           {
-            label: "Status",
+            label: "Trạng thái",
             field: "status.name",
             type: 'string',
             filterable: true

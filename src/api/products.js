@@ -26,9 +26,18 @@ export const products = {
     });
   }, 
 
-  async update(id, payload) {
+  async getRateProduct(id) {
+    return await axios.get("products/rate/" + id )
+    .catch(error => {
+      // return api.response.error(error.response.data)
+      console.log("notfound", error);
+      return
+    });
+  },
+
+  async updateProduct(id, payload) {
     return await axios
-      .put(Vue.prototype.$settings.baseURL + "/users/" + id, payload)
+      .put(Vue.prototype.$settings.baseURL + "/products/" + id, payload)
       .catch(error => {
         return api.response.error(error.response.data);
       });

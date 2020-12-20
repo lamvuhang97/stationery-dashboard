@@ -88,7 +88,7 @@
             v-if="props.column.page == 'entity' || props.column.page == 'user'"
             class="btn btn-danger"
             type="button"
-          >Remove</button>
+          >Xóa</button>
         </span>
 
         <span
@@ -277,6 +277,9 @@ export default {
           url = this.props.remoteURL
         }
         console.log(url);
+        if(url.includes("products/user")) {
+          url = url + "&status=all"
+        }
         //this.$axios.get(url, { body: this.serverParams }).then(response => {
         this.$axios.get(url).then(response => {
           if(response.data.meta){

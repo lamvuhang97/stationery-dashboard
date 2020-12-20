@@ -18,49 +18,49 @@ export default {
         searchname: "Search for a order by id...",
         columns: [
           {
-            label: "Id",
+            label: "Mã đơn hàng",
             field: "id",
             type: 'string',
             filterable: true
           },
           {
-            label: "Ma Nguoi mua",
+            label: "Mã người mua",
             field: "userId",
             type: 'string',
             filterable: true
           },
           {
-            label: "Ma Nguoi ban",
+            label: "Mã người bán",
             field: "ownerId",
             type: 'string',
             filterable: true
           },
           {
-            label: "Tien hang",
+            label: "Tiền hàng",
             field: "total",
             type: 'number',
             filterable: true
           },
           {
-            label: "Tien ship",
+            label: "Tiền vận chuyển",
             field: "ship",
             type: 'number',
             filterable: true
           },
           {
-            label: "Tong tien",
+            label: "Tổng tiền",
             field: this.total,
             type: 'number',
             filterable: true
           },
           {
-            label: "Payment",
+            label: "Thanh toán",
             field: "payment.name",
             type: 'string',
             filterable: true
           },
           {
-            label: "Status",
+            label: "Trạng thái",
             field: "status.name",
             type: 'string',
             filterable: true
@@ -82,10 +82,38 @@ export default {
   },
   watch: {
       "statusId"() {
-          console.log("change");
-          console.log("id comu",this.statusId);
           this.props.remoteURL = this.$settings.baseURL + "/orders/status/" + this.statusId
           this.reload = !this.reload
+          console.log("change");
+          switch (this.statusId) {
+            case "1":
+              this.text = "Chờ xác nhận"
+              break;
+            case "2":
+              this.text = "Chờ lấy hàng"
+              break;
+            case "3":
+              this.text = "Đang giao"
+              break;
+            case "4":
+              this.text = "Đã giao"
+              break;
+            case "5":
+              this.text = "Đã hủy"
+              break;
+            case "6":
+              this.text = "Chờ xử lý"
+              break;
+            case "7":
+              this.text = "Đang trả hàng"
+              break;
+            case "8":
+              this.text = "Đã trả hàng"
+              break;
+            case "9":
+              this.text = "Hoàn thành"
+              break;
+          }
       }
   },
   methods: {

@@ -2,7 +2,7 @@
   <div>
     <div class="form-group">
       <button class="btn btn-primary" @click="createCategory">
-        Create New Category
+        Thêm loại sản phẩm
       </button>
     </div>
     <custom-table :props="props" @cell-click="cellClick" :reload="reload"></custom-table>
@@ -19,7 +19,12 @@ export default {
         searchname: "Search for a category by name...",
         columns: [
           {
-            label: "Name",
+            label: "Mã loại sản phẩm",
+            field: "id",
+            filterable: true
+          },
+          {
+            label: "Loại sản phẩm",
             field: "name",
             type: 'string',
             filterable: true
@@ -31,17 +36,11 @@ export default {
           //   filterable: true
           // },
           {
-            label: "Num of products",
+            label: "Số lượng sản phẩm",
             field: this.numOfProducts,
             type: 'string',
             filterable: true
           },
-          {
-            label: "",
-            field: "removebutton",
-            sortable: false,
-            page: "user"
-          }
         ],
         remoteURL: this.$settings.baseURL + "/categories",
         isLoading: false,

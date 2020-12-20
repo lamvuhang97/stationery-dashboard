@@ -2,56 +2,68 @@
     <div class="container">
         <div class="analyze">
             <div class="analyze-order analyze-item">
-                <h5>Thống kê đơn hàng</h5>
-                <span>Tổng số đơn hàng: {{sumOrder}}</span>
-                <div class="items">
-                    <div class="item" style="border-right:1px solid gray">
-                        <span class="number">{{dataOrder.waiting}}</span>
-                        <span class="title">Chờ xác nhận</span>
+                <h4>Thống kê đơn hàng</h4>
+                <h5>Tổng số đơn hàng: <span style="color: red">{{sumOrder}}</span></h5>
+                <div class="items" style="display:flex; flex-direction:column">
+                    <div class="items" style="margin-bottom: 10px">
+                        <div class="item" style="border-right:1px solid gray">
+                            <span class="number">{{dataOrder.cholayhang}}</span>
+                            <span class="title">Chờ lấy hàng</span>
+                        </div>
+                        <div class="item" style="border-right:1px solid gray">
+                            <span class="number">{{dataOrder.danggiao}}</span>
+                            <span class="title">Đang giao</span>
+                        </div>
+                        <div class="item" style="border-right:1px solid gray">
+                            <span class="number">{{dataOrder.dagiao}}</span>
+                            <span class="title">Đã giao</span>
+                        </div>
+                        <div class="item" style="border-right:1px solid gray;background-color: chartreuse;">
+                            <span class="number">{{dataOrder.hoanthanh}}</span>
+                            <span class="title">Hoàn thành</span>
+                        </div>
                     </div>
-                    <div class="item" style="border-right:1px solid gray">
-                        <span class="number">{{dataOrder.accept}}</span>
-                        <span class="title">Chờ lấy hàng</span>
-                    </div>
-                    <div class="item" style="border-right:1px solid gray">
-                        <span class="number">{{dataOrder.accept}}</span>
-                        <span class="title">Đang giao</span>
-                    </div>
-                    <div class="item" style="border-right:1px solid gray">
-                        <span class="number">{{dataOrder.reject}}</span>
-                        <span class="title">Từ chối</span>
-                    </div>
-                    <div class="item" style="border-right:1px solid gray">
-                        <span class="number">{{dataOrder.success}}</span>
-                        <span class="title">Thành công</span>
-                    </div>
-                    <div class="item">
-                        <span class="number">{{dataOrder.fail}}</span>
-                        <span class="title">Thất bại</span>
+                    <div class="items">
+                        <div class="item" style="border-right:1px solid gray; background-color:coral">
+                            <span class="number">{{dataOrder.choxuly}}</span>
+                            <span class="title">Chờ xử lý</span>
+                        </div>
+                        <div class="item" style="border-right:1px solid gray">
+                            <span class="number">{{dataOrder.dangtrahang}}</span>
+                            <span class="title">Đang trả hàng</span>
+                        </div>
+                        <div class="item" style="border-right:1px solid gray">
+                            <span class="number">{{dataOrder.datrahang}}</span>
+                            <span class="title">Đã trả hàng</span>
+                        </div>
+                        <div class="item" style="border-right:1px solid gray; background-color: #e0705e">
+                            <span class="number">{{dataOrder.dahuy}}</span>
+                            <span class="title">Đã hủy</span>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="analyze-product analyze-item">
-                <h5>Thống kê sản phẩm</h5>
-                <span>Tổng số sản phẩm: {{sumProduct}}</span>
+                <h4>Thống kê sản phẩm</h4>
+                <h5>Tổng số sản phẩm: <span style="color:red">{{sumProduct}}</span></h5>
                 <div class="items">
                     <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataProduct.active}}</span>
                         <span class="title">Đang bán</span>
                     </div>
-                    <div class="item" style="border-right:1px solid gray">
+                    <div class="item" style="border-right:1px solid gray; background-color: coral">
                         <span class="number">{{dataProduct.sold}}</span>
                         <span class="title">Hết hàng</span>
                     </div>
-                    <div class="item">
+                    <div class="item" style="background-color: #e0705e">
                         <span class="number">{{dataProduct.locked}}</span>
                         <span class="title">Tạm khóa</span>
                     </div>
                 </div>
             </div>
             <div class="analyze-user analyze-item">
-                <h5>Thống kê người dùng</h5>
-                <span>Tổng số người dùng: {{dataUser.sum}} </span>
+                <h4>Thống kê người dùng</h4>
+                <h5>Tổng số người dùng: <span style="color: red">{{dataUser.sum}}</span> </h5>
                 <div class="items">
                     <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataUser.day}}</span>
@@ -65,7 +77,7 @@
                         <span class="number">{{dataUser.month}}</span>
                         <span class="title">Trong tháng</span>
                     </div>
-                    <div class="item">
+                    <div class="item" style="background-color: #e0705e">
                         <span class="number">{{dataUser.lock}}</span>
                         <span class="title">Bi khoa</span>
                     </div>
@@ -79,11 +91,15 @@ export default {
     data() {
         return {
             dataOrder:  {
-                waiting: 0,
-                accept: 0,
-                reject: 0,
-                success: 0,
-                fail: 0
+                choxacnhan: 0,
+                cholayhang: 0,
+                danggiao: 0,
+                dagiao: 0,
+                dahuy: 0,
+                choxuly: 0,
+                dangtrahang: 0,
+                datrahang: 0,
+                hoanthanh: 0
             },
             dataProduct: {
                 active:0,
@@ -119,22 +135,31 @@ export default {
                 var status = item.statusId
                 switch(status) {
                     case 1:
-                        this.dataOrder.waiting = item.number
+                        this.dataOrder.choxacnhan = item.number
                         break
                     case 2:
-                        this.dataOrder.accept = item.number
+                        this.dataOrder.cholayhang = item.number
                         break
                     case 3:
-                        this.dataOrder.shipping = item.number
+                        this.dataOrder.danggiao = item.number
                         break
                     case 4:
-                        this.dataOrder.reject = item.number
+                        this.dataOrder.dagiao = item.number
                         break
                     case 5:
-                        this.dataOrder.success = item.number
+                        this.dataOrder.dahuy = item.number
                         break
                     case 6:
-                        this.dataOrder.fail = item.number
+                        this.dataOrder.choxuly = item.number
+                        break
+                    case 7:
+                        this.dataOrder.dangtrahang = item.number
+                        break
+                    case 8:
+                        this.dataOrder.datrahang = item.number
+                        break
+                    case 9:
+                        this.dataOrder.hoanthanh = item.number
                         break 
                 }
             })
@@ -203,9 +228,18 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0px 20px;
+    margin: 0px 20px;
+    width: 25%;
+    height: 70px;
+    border-radius: 10px;
+    background-color: #bdace4;
+    justify-content: space-evenly;
 }
 .analyze-item {
     padding-top: 20px;
+    margin-bottom: 20px;
+}
+h4{
+    font-weight: bold;
 }
 </style>

@@ -95,12 +95,12 @@ export default {
     };
   },
   methods: {
-    handleLogin(e) {
+    async handleLogin(e) {
       e.preventDefault();
       if (this.input.email != "" && this.input.password != "") {
-        this.$api.authentications
+        await this.$api.authentications
           .login({ username: this.input.email, password: this.input.password })
-          .then((response) => {
+          .then(async (response) => {
             if (response.status == 200) {
               Vue.prototype.$localstorage.setToken(response.data.token);
               Vue.prototype.$localstorage.setName(this.input.email);
@@ -111,10 +111,16 @@ export default {
             } else if (response.status >= 300) {
               this.message = response.message;
             }
+            await this.$api.authentications.getProfile()
+            .then(res => {
+              console.log("res role", res);
+              Vue.prototype.$localstorage.setRole(res.data.roleId);
+            })
           })
           .catch((error) => {
             return Promise.reject(error);
           });
+          
       } else {
         this.message = "A username and password must be present";
       }

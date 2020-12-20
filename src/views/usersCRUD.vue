@@ -6,7 +6,7 @@
             <img class="preview" height="268" width="356" :src="imgUrl">
           </div>
           <div class="update-img">
-            <button class="btn btn-primary" @click="click1">Choose photo</button>
+            <button class="btn btn-primary" @click="click1">Chọn ảnh</button>
             <!-- <button class="btn btn-success" @click="create">Upload</button> -->
             <input type="file" ref="input1"
               style="display: none"
@@ -18,8 +18,12 @@
         </div>
     </div>
     <div class="products" v-if="!isNew">
-      <h5>Products</h5> 
+      <h5>Sản phẩm</h5> 
       <custom-table :props="propsProduct" @cell-click="cellClickProduct"></custom-table>
+    </div>
+    <div class="transactions" v-if="!isNew">
+      <h5>Giao dịch</h5> 
+      <custom-table :props="propsTransaction"></custom-table>
     </div>
     <!-- <div class="orders" v-if="!isNew">
       <h5>Products</h5> 
@@ -46,31 +50,37 @@ export default {
         searchname: "Search for a product by name...",
         columns: [
           {
-            label: "Name",
+            label: "Mã sản phẩm",
+            field: "id",
+            type: 'string',
+            filterable: true
+          },
+          {
+            label: "Tên sản phẩm",
             field: "name",
             type: 'string',
             filterable: true
           },
           {
-            label: "Category",
+            label: "Phân loại",
             field: "category.name",
             type: 'string',
             filterable: true
           },
           {
-            label: "Price",
+            label: "Giá",
             field: "price",
             type: 'string',
             filterable: true
           },
           {
-            label: "Quantity",
+            label: "Kho",
             field: "quantity",
             type: 'string',
             filterable: true
           },
           {
-            label: "Status",
+            label: "Trạng thái",
             field: this.status,
             type: 'string',
             filterable: true
@@ -86,11 +96,57 @@ export default {
         isLoading: false,
         searchParams: "name",
       },
+      propsTransaction: {
+        norowsfound: "transaction ",
+        searchname: "Search for a transaction by name...",
+        columns: [
+        {
+            label: "Mã giao dịch",
+            field: "id",
+            type: 'number',
+            filterable: true
+        },
+        {
+            label: "Mã đơn hàng",
+            field: "orderId",
+            type: 'number',
+            filterable: true
+        },
+        {
+            label: "Email giao dịch",
+            field: "email",
+            type: 'string',
+            filterable: true
+        },
+        {
+            label: "Loại giao dịch",
+            field: "type",
+            type: 'string',
+            filterable: true
+        },
+        {
+            label: "Số tiền",
+            field: "amount",
+            type: 'string',
+            filterable: true
+        },
+        {
+            label: "Trạng thái giao dịch",
+            field: "status",
+            type: 'string',
+            filterable: true
+        },
+        ],
+        remoteURL: this.$settings.baseURL + "/transactions/user/" + this.$route.params.id,
+        isLoading: false,
+        reload: false,
+        searchParams: "name",
+      },
       formbuilder: {
         heading: "Create User",
         columns: [
           {
-            label: "Username",
+            label: "Tên người dùng",
             field: "username",
             value: "",
             filterable: true,
@@ -242,10 +298,10 @@ export default {
     },
     status(rowObj) {
       if(rowObj.status === true){
-        return "Enable"
+        return "Đang bán"
       }
       if(rowObj.status === false){
-        return "Disable"
+        return "Bị khóa"
       }
     },
     async cellClickProduct(params) {
@@ -277,7 +333,7 @@ export default {
       //add field status 
       this.formbuilder.columns.push(
         {
-          label: "Status",
+          label: "Trạng thái",
           field: "status",
           value: "",
           readonly: true,
@@ -289,7 +345,7 @@ export default {
 
       this.formbuilder.columns.splice(pos,1)
       this.isNew = false
-      this.formbuilder.heading = "Update User";
+      this.formbuilder.heading = "Thông tin người dùng";
       this.formbuilder.optionDisabled = true;
       var response = await this.$api.users.get(this.$route.params.id);
       console.log("res", response);
@@ -303,8 +359,8 @@ export default {
           this.formbuilder.columns[item].value = data[field];
           if(field == 'status') {
             if(data[field] == true) {
-              this.formbuilder.columns[item].value = 'Active'
-            } else this.formbuilder.columns[item].value = 'Locked'
+              this.formbuilder.columns[item].value = 'Hoạt động'
+            } else this.formbuilder.columns[item].value = 'Bị khóa'
           }
         }
       }
@@ -333,7 +389,7 @@ img {
 .profile {
   width: 70%;
 }
-.products{
+.products, .transactions{
   margin: 20px;
 }
 </style>

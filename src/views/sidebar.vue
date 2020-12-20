@@ -11,7 +11,7 @@
           <i class="fas fa-wrench"></i>
         </div>
         <div class="sidebar-brand-text mx-3">
-          <span>VMS</span>
+          <span>Stationery</span>
         </div>
       </a>
       <hr class="sidebar-divider my-0" />
@@ -19,67 +19,85 @@
         <li class="nav-item" role="presentation">
           <router-link to="/dashboard" class="nav-link">
             <i class="fas fa-user"></i>
-            <span>Dashboard</span>
+            <span>Thống kê</span>
           </router-link>
         </li>
-        <li class="nav-item" role="presentation">
+        <li class="nav-item" role="presentation" v-if="isStaff">
           <router-link to="/users" class="nav-link">
             <i class="fas fa-user"></i>
-            <span>Users</span>
+            <span>Quản lý người dùng</span>
           </router-link>
         </li>
-        <li class="nav-item" role="presentation">
+        <li class="nav-item" role="presentation" v-if="isStaff">
           <router-link to="/products" class="nav-link">
             <i class="fas fa-pager"></i>
-            <span>Products</span>
+            <span>Quản lý sản phẩm</span>
           </router-link>
         </li>
-        <li class="nav-item" role="presentation">
+        <li class="nav-item" role="presentation" v-if="isStaff">
           <router-link to="/category" class="nav-link">
             <i class="fas fa-photo-video"></i>
-            <span>Category</span>
+            <span>Quản lý phân loại</span>
           </router-link>
         </li>
         <li class="nav-item" role="presentation" >
           <router-link to="/orders" class="nav-link">
             <i class="fas fa-film"></i>
-            <span @click="show = !show">Orders</span>
+            <span @click="show = !show">Quản lý đơn hàng</span>
               <div class="order-list" v-show="show">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
                   <li class="nav-item" role="presentation">
                     <router-link to="/order/1" class="nav-link">
                       <i class="fas fa-user"></i>
-                      <span>Cho xac nhan</span>
+                      <span>Chờ xác nhận</span>
                     </router-link>
                   </li>
                   <li class="nav-item" role="presentation">
                     <router-link to="/order/2" class="nav-link">
                       <i class="fas fa-user"></i>
-                      <span>Cho lay hang</span>
+                      <span>Chờ lấy hàng</span>
                     </router-link>
                   </li>
                   <li class="nav-item" role="presentation">
                     <router-link to="/order/3" class="nav-link">
                       <i class="fas fa-user"></i>
-                      <span>Cho giao hang</span>
+                      <span>Đang giao</span>
                     </router-link>
                   </li>
                   <li class="nav-item" role="presentation">
                     <router-link to="/order/4" class="nav-link">
                       <i class="fas fa-user"></i>
-                      <span>Bi tu choi</span>
+                      <span>Đã giao</span>
                     </router-link>
                   </li>
                   <li class="nav-item" role="presentation">
                     <router-link to="/order/5" class="nav-link">
                       <i class="fas fa-user"></i>
-                      <span>Thanh cong</span>
+                      <span>Đã hủy</span>
                     </router-link>
                   </li>
                   <li class="nav-item" role="presentation">
                     <router-link to="/order/6" class="nav-link">
                       <i class="fas fa-user"></i>
-                      <span>That bai</span>
+                      <span>Chờ xử lý</span>
+                    </router-link>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <router-link to="/order/7" class="nav-link">
+                      <i class="fas fa-user"></i>
+                      <span>Đang trả hàng</span>
+                    </router-link>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <router-link to="/order/8" class="nav-link">
+                      <i class="fas fa-user"></i>
+                      <span>Đã trả hàng</span>
+                    </router-link>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <router-link to="/order/9" class="nav-link">
+                      <i class="fas fa-user"></i>
+                      <span>Hoàn thành</span>
                     </router-link>
                   </li>
                 </ul>
@@ -98,13 +116,23 @@
   </nav>
 </template>
 <script>
+import Vue from "vue"
 // import store from "@/services/storage/store";
 export default {
   data() {
     return {
       role: "",
-      show: false
+      show: false,
+      isStaff: null
     };
+  },
+  mounted() {
+    var roleId = Vue.prototype.$localstorage.getRole();
+    if( roleId == 1) {
+      this.isStaff = false
+    } else if(roleId == 3) {
+      this.isStaff = true
+    }
   }
 }
 </script>

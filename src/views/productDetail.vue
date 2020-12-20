@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4>Thong tin san pham</h4>
+        <h4>Thông tin sản phẩm</h4>
         <div class="product-detail">
             <carousel :perPage="1" :autoplayHoverPause="true" :paginationEnabled="false" class="images">
                 <slide v-for="img in images" :key="img">
@@ -12,8 +12,8 @@
             </div>
         </div>
         <div class="review">
-            <h4>Danh gia san pham</h4>
-            <custom-table :props="props" @cell-click="cellClick"  :reload="reload"></custom-table>
+            <h4>Đánh giá sản phẩm - {{rateToShow}}</h4>
+            <custom-table :props="props" @cell-click="cellClick" :reload="reload"></custom-table>
         </div>
     </div>
     
@@ -29,60 +29,68 @@ export default {
     data() {
         return {
             images: [],
+            rateToShow: '',
             formbuilder: {
-                heading: "Product Detail",
+                heading: "Thông tin sản phẩm",
                 columns: [
                 {
-                    label: "Name",
+                    label: "Mã sản phẩm",
+                    field: "id",
+                    value: "",
+                    inputtype: true,
+                    readonly: true
+                },
+                {
+                    label: "Tên sản phẩm",
                     field: "name",
                     value: "",
                     inputtype: true,
                     readonly: true
                 },
                 {
-                    label: "Category",
+                    label: "Phân loại",
                     field: "category",
                     value: "",
                     inputtype: true,
                     readonly: true
                 },
                 {
-                    label: "Price",
+                    label: "Giá",
                     field: "price",
                     value: "",
                     inputtype: true,
                     readonly: true
                 },
                 {
-                    label: "Sold",
+                    label: "Đã bán",
                     field: "sold",
                     value: "",
                     inputtype: true,
                     readonly: true
                 },
                 {
-                    label: "Description",
+                    label: "Mô tả",
                     field: "description",
                     value: "",
                     textarea: true,
                     readonly: true
                 },
                 {
-                    label: "Quantity",
+                    label: "Kho",
                     field: "quantity",
                     value: "",
                     inputtype: true,
                     readonly: true
                 },
                 {
-                    label: "Status",
+                    label: "Trạng thái",
                     field: "status",
                     value: "",
                     inputtype: true,
                     readonly: true
                 },
                 {
-                    label: "Owner",
+                    label: "Người bán",
                     field: "owner",
                     value: "",
                     inputtype: true,
@@ -99,25 +107,25 @@ export default {
                 searchname: "Search for a order by id...",
                 columns: [
                 {
-                    label: "Id",
+                    label: "Mã đánh giá",
                     field: "id",
                     type: 'number',
                     filterable: true
                 },
                 {
-                    label: "Ma nguoi dung",
+                    label: "Mã người đánh giá",
                     field: "userId",
                     type: 'number',
                     filterable: true
                 },
                 {
-                    label: "Diem danh gia",
+                    label: "Điểm đánh giá",
                     field: "rate",
                     type: 'number',
                     filterable: true
                 },
                 {
-                    label: "Noi dung danh gia",
+                    label: "Nội dung đánh giá",
                     field: "content",
                     type: 'number',
                     filterable: true
@@ -174,8 +182,8 @@ export default {
                 this.formbuilder.columns[item].value = data[field];
                 if(field == 'status') {
                     if(data[field] == true) {
-                    this.formbuilder.columns[item].value = 'Active'
-                    } else this.formbuilder.columns[item].value = 'Locked'
+                    this.formbuilder.columns[item].value = 'Đang bán'
+                    } else this.formbuilder.columns[item].value = 'Bị khóa'
                 }
             }
         }
@@ -185,6 +193,14 @@ export default {
             this.props.data = res.data.data.rows;
             this.reload = !this.reload
         })
+
+        const rate = await this.$api.products.getRateProduct(this.id)
+        this.rateToShow = rate.data.total
+        if(this.rateToShow == "") {
+            this.rateToShow = "Chưa có đánh giá"
+        } else {
+            this.rateToShow = this.rateToShow.substring(0,3) + " stars"
+        }
     }
 }
 </script>
